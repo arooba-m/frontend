@@ -1,4 +1,5 @@
-// check line 164
+// components/LoginComponent.tsx
+
 'use client'
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -7,42 +8,23 @@ import {
   Paper, Box, Grid, Typography, createTheme, ThemeProvider, Divider
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-// import useUserService from '@/Services/useUserService';
 
-// If 'useUserService' is a custom hook, make sure to import its type definition or create one
-// Example: import { useUserService } from '@/Services/useUserService';
-// interface UseUserService {
-//   signup: (data: any) => Promise<any>;
-// }
-
-
-const  Signup=()=> {
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+export default function LoginComponent() {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const router = useRouter();
-  // const userService: UseUserService = useUserService();
 
-  const submitSignup = async (e: FormEvent) => {
+  const submitLogin = async (e: FormEvent) => {
     e.preventDefault();
-    const data = { firstname, lastname, username, email, password };
 
     try {
-      // Update this part according to the actual structure of your 'useUserService' hook
-    //   const response = await userService.signup(data);
-      // const message = "User registered";
+      // Your login logic here
+      console.log("Login successful");
 
-      console.log("User registered");
-      setFirstname("");
-      setLastname("");
       setUsername("");
-      setEmail("");
       setPassword("");
 
-      router.push('/');
+      // router.push('/');
     } catch (error) {
       console.error(error);
     }
@@ -52,17 +34,8 @@ const  Signup=()=> {
     const { name, value } = e.target;
 
     switch (name) {
-      case "firstname":
-        setFirstname(value);
-        break;
-      case "lastname":
-        setLastname(value);
-        break;
       case "username":
         setUsername(value);
-        break;
-      case "email":
-        setEmail(value);
         break;
       case "password":
         setPassword(value);
@@ -111,47 +84,19 @@ const  Signup=()=> {
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5" sx={{ fontWeight: 700 }}>
-                Sign Up
+                Login
               </Typography>
-              <Box component="form" onSubmit={submitSignup}
+              <Box component="form" onSubmit={submitLogin}
                 sx={{
                   mt: 3,
-                  // ml:10,
-                  // justifyContent: 'center', 
                   textAlign: 'center'
                 }}>
-                <TextField margin="normal" required
-                  // fullWidth
-                  id="firstname" label="First Name"
-                  name="firstname" type='text'
-                  variant='outlined'
-                  autoFocus
-                  autoComplete ="username"
-                  value={firstname} onChange={onChange}
-                // focused         
-                />
-                <TextField margin="normal" required
-                  id="lastname" label="Last Name"
-                  name="lastname" type='text'
-                  autoFocus
-                  autoComplete ="username"
-                  value={lastname} onChange={onChange}
-                // focused
-                />
                 <TextField margin="normal" required
                   id="username" label="Username"
                   name="username" type='text'
                   autoFocus
-                  autoComplete ="username"
+                  autoComplete='username'
                   value={username} onChange={onChange}
-                // focused
-                />
-                <TextField margin="normal" required
-                  id="email" label="Email Address"
-                  name="email" autoComplete="email"
-                  type='email'
-                  autoFocus
-                  value={email} onChange={onChange}
                 />
                 <TextField
                   margin="normal"
@@ -161,8 +106,6 @@ const  Signup=()=> {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                //   minLength="8"
-                  // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters
                   value={password} onChange={onChange}
                 />
                 <Button
@@ -175,16 +118,12 @@ const  Signup=()=> {
                     backgroundColor: "#597FB5 !important",
                     color: "#fff !important",
                     '&:hover': {
-                      backgroundColor: "#405D80 !important", // Darker color on hover
+                      backgroundColor: "#405D80 !important",
                     },
-                  }}> Sign Up
+                  }}> Login
                 </Button>
-                <Divider variant="middle"
-                  sx={{ mb: 2 }} />
-                {/* <Grid container pr={1}> */}
-                {/* <Grid item xs> */}
-               
-                {/* <Link href="#resetPassword" variant="body2" textAlign="center"
+                <Divider variant="middle" sx={{ mb: 2 }} />
+                <Link href="#resetPassword" variant="body2" textAlign="center"
                   sx={{
                     fontWeight: 600, color: '#597FB5',
                     '&:hover': {
@@ -192,21 +131,16 @@ const  Signup=()=> {
                     }
                   }}>
                   <p>Forgot password?</p>
-                </Link> */}
-
-                {/* </Grid> */}
-                {/* <Grid item   > */}
-                <Link href="/login" variant="body2" textAlign="center"
+                </Link>
+                <Link href="/signup" variant="body2" textAlign="center"
                   sx={{
                     fontWeight: 600, color: '#597FB5',
                     '&:hover': {
                       fontWeight: 500,
                     }
                   }}>
-                  <p>Already have an account? Login</p>
+                  <p>Don't have an account? Signup</p>
                 </Link>
-                {/* </Grid> */}
-                {/* </Grid> */}
               </Box>
             </Box>
           </Grid>
@@ -215,6 +149,3 @@ const  Signup=()=> {
     </ThemeProvider>
   );
 }
-
-
-export default  Signup
