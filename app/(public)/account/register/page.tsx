@@ -7,7 +7,9 @@ import {
   Paper, Box, Grid, Typography, createTheme, ThemeProvider, Divider
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-// import useUserService from '@/Services/useUserService';
+// import useUserService from '@/services/useUserService';
+import { useUserService } from '@/app/_services/useUserService';
+import {IUser} from '@/app/_store/userStore';
 
 // If 'useUserService' is a custom hook, make sure to import its type definition or create one
 // Example: import { useUserService } from '@/Services/useUserService';
@@ -24,25 +26,25 @@ const  Signup=()=> {
   const [password, setPassword] = useState("");
 
   const router = useRouter();
+  const userService = useUserService();
   // const userService: UseUserService = useUserService();
 
   const submitSignup = async (e: FormEvent) => {
     e.preventDefault();
-    const data = { firstname, lastname, username, email, password };
+    const tempUser: IUser = { firstname, lastname, username, email, password };
 
     try {
       // Update this part according to the actual structure of your 'useUserService' hook
-    //   const response = await userService.signup(data);
+      const response = await userService.register(tempUser);
       // const message = "User registered";
 
-      console.log("User registered");
       setFirstname("");
       setLastname("");
       setUsername("");
       setEmail("");
       setPassword("");
 
-      router.push('/');
+      // router.push('/');
     } catch (error) {
       console.error(error);
     }
@@ -161,7 +163,10 @@ const  Signup=()=> {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                //   minLength="8"
+                  // minLength="8"
+                  inputProps={{
+                    minLength: 8,
+                  }}
                   // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters
                   value={password} onChange={onChange}
                 />
@@ -196,7 +201,7 @@ const  Signup=()=> {
 
                 {/* </Grid> */}
                 {/* <Grid item   > */}
-                <Link href="/login" variant="body2" textAlign="center"
+                <Link href="/account/login" variant="body2" textAlign="center"
                   sx={{
                     fontWeight: 600, color: '#597FB5',
                     '&:hover': {

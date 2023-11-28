@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useFetch from '../_helpers/useFetch';
-
+// import {IUserStore, IUser} from '../_store/userStore';
 
 export { useUserService };
 
@@ -17,7 +17,13 @@ function useUserService(): IUserService {
     const fetch = useFetch();
     const router = useRouter();
     const searchParams = useSearchParams();
-    const { users, user, currentUser } = userStore();
+    const { users, user, currentUser} = userStore();
+    // const user = userStore( (state) => state.user);
+    // const users = userStore( (state) => state.users);
+    // const currentUser = userStore( (state) => state.currentUser);
+    // const setUser = userStore( (state) => state.setUser);
+
+
 
     return {
         users,
@@ -25,14 +31,14 @@ function useUserService(): IUserService {
         currentUser,
         login: async (username, password) => {
             try {
-                const currentUser = await fetch.post('/api/account/login', { username, password });
+                const currentUser = await fetch.post('https://localhost:7256/api/accounts/login', { username, password });
                 userStore.setState({ ...initialState, currentUser });
 
                 // get return url from query parameters or default to '/'
                 const returnUrl = searchParams.get('returnUrl') || '/';
                 router.push(returnUrl);
             } catch (error: any) {
-
+                console.log(error); //toaster
             }
         },
         logout: async () => {
@@ -41,10 +47,13 @@ function useUserService(): IUserService {
         },
         register: async (user) => {
             try {
-                await fetch.post('/api/account/register', user);
+                await fetch.post('https://localhost:7256/api/accounts/register',user);
+                // await fetch.post('/api/account/register', user);
                 // alertService.success('Registration successful', true);
+                console.log("User registered"); //toaster
                 router.push('/account/login');
             } catch (error: any) {
+                console.log(error); //toaster
                 // alertService.error(error);
             }
         },
@@ -56,7 +65,9 @@ function useUserService(): IUserService {
             try {
                 userStore.setState({ user: await fetch.get(`/api/users/${id}`) });
             } catch (error: any) {
-                alertService.error(error);
+                //toaster
+                console.log(error);
+                // alertService.error(error);
             }
         },
         getCurrent: async () => {
@@ -102,11 +113,11 @@ function useUserService(): IUserService {
 
 interface IUser {
     id?: string,
-    firstName: string,
-    lastName: string,
+    firstname: string,
+    lastname: string,
     username: string,
     password: string,
-    // isDeleting?: boolean
+    isDeleting?: boolean
 }
 
 interface IUserStore {

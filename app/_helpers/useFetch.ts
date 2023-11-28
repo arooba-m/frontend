@@ -25,7 +25,6 @@ const useFetch=()=> {
     }
 
     // helper functions
-
     async function handleResponse(response: any) {
         const isJson = response.headers?.get('content-type')?.includes('application/json');
         const data = isJson ? await response.json() : null;

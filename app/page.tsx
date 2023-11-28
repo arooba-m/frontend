@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 import Footer from './_components/footer'
 import Signup from './(public)/account/register/page'
 // import HeaderComponent from './_components/header'
+import Header from './_components/header'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,6 +17,7 @@ export default function Home() {
     <Head>
       <title>OneClicks</title>
     </Head>
+    <Header/>
     home page
     <Footer/>
   </div>    

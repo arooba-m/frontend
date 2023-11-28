@@ -8,23 +8,26 @@ import {
   Paper, Box, Grid, Typography, createTheme, ThemeProvider, Divider
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import { useUserService } from '@/app/_services/useUserService';
 
 export default function LoginComponent() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
+  const userService = useUserService();
 
   const submitLogin = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
+      const response = await userService.login(username, password);
       // Your login logic here
       console.log("Login successful");
 
       setUsername("");
       setPassword("");
 
-      // router.push('/');
+      router.push('/');
     } catch (error) {
       console.error(error);
     }
@@ -132,7 +135,7 @@ export default function LoginComponent() {
                   }}>
                   <p>Forgot password?</p>
                 </Link>
-                <Link href="/signup" variant="body2" textAlign="center"
+                <Link href="/account/register" variant="body2" textAlign="center"
                   sx={{
                     fontWeight: 600, color: '#597FB5',
                     '&:hover': {
