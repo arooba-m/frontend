@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useFetch from '../_helpers/useFetch';
 // import {IUserStore, IUser} from '../_store/userStore';
+// import User from '../_models/user.model'
 
 export { useUserService };
 
@@ -17,6 +18,7 @@ function useUserService(): IUserService {
     const fetch = useFetch();
     const router = useRouter();
     const searchParams = useSearchParams();
+    // const userModel = User();
     const { users, user, currentUser} = userStore();
     // const user = userStore( (state) => state.user);
     // const users = userStore( (state) => state.users);
@@ -41,6 +43,17 @@ function useUserService(): IUserService {
                 console.log(error); //toaster
             }
         },
+        verify: async (token) => {
+            try {
+                const token = await fetch.get('https://localhost:7256/api/accounts/verify');
+                // userStore.setState({ ...initialState, currentUser });
+
+                // get return url from query parameters or default to '/'
+                router.push('/');
+            } catch (error: any) {
+                console.log(error); //toaster
+            }
+        },      
         logout: async () => {
             await fetch.post('/api/account/logout');
             router.push('/account/login');
@@ -52,6 +65,19 @@ function useUserService(): IUserService {
                 // alertService.success('Registration successful', true);
                 console.log("User registered"); //toaster
                 router.push('/account/login');
+            } catch (error: any) {
+                console.log(error); //toaster
+                // alertService.error(error);
+            }
+        },
+        resetPassword: async (password) => {
+            try {
+                await fetch.post('https://localhost:7256/api/accounts/resetPassword', password);
+                // await fetch.post('/api/account/register', user);
+                // alertService.success('Registration successful', true);
+                console.log("Password changed succesfully"); //toaster
+                const returnUrl = searchParams.get('returnUrl') || '/';
+                router.push(returnUrl);
             } catch (error: any) {
                 console.log(error); //toaster
                 // alertService.error(error);
@@ -69,7 +95,7 @@ function useUserService(): IUserService {
                 console.log(error);
                 // alertService.error(error);
             }
-        },
+        },  
         getCurrent: async () => {
             if (!currentUser) {
                 userStore.setState({ currentUser: await fetch.get('/api/users/current') });
@@ -117,7 +143,8 @@ interface IUser {
     lastname: string,
     username: string,
     password: string,
-    isDeleting?: boolean
+    isDeleting?: boolean,
+    token?: string
 }
 
 interface IUserStore {
@@ -128,6 +155,8 @@ interface IUserStore {
 
 interface IUserService extends IUserStore {
     login: (username: string, password: string) => Promise<void>,
+    verify: (token: string) => Promise<void>,
+    resetPassword: (password: string) => Promise<void>,
     logout: () => Promise<void>,
     register: (user: IUser) => Promise<void>,
     getAll: () => Promise<void>,
