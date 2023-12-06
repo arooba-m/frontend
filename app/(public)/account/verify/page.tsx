@@ -1,4 +1,4 @@
-import EmailVerification from "@/app/_components/emailVerification";
+import EmailVerification from "@/app/(public)/account/verify/emailVerification";
 
 const VerifyPage = () => {
   return <EmailVerification />;
