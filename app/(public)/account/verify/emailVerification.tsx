@@ -8,7 +8,7 @@ import {
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import { useRouter } from 'next/navigation';
 import { useUserService} from '@/app/_services/useUserService';
-import { VerifyService } from '@/app/_services/UserService';
+import { VerifyService } from '@/app/_services/authService';
 
 export default function EmailVerification() {
     const router = useRouter();

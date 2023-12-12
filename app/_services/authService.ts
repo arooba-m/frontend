@@ -22,8 +22,8 @@ async function handleResponse<T>(response: Response): Promise<T> {
 }
 const fetch = useFetch();
 
-export async function RegisterService(credentials: UserPayload): Promise<User> {
-    const response = await fetch.post(`${SERVER_ENDPOINT}/api/accounts/register`, credentials);
+export async function RegisterService(payload: UserPayload): Promise<User> {
+    const response = await fetch.post(`${SERVER_ENDPOINT}/api/accounts/register`, payload);
 
     return handleResponse<ResponseVM<User>>(response).then((data) => data.responseData);
 }
@@ -40,23 +40,28 @@ export async function VerifyService(): Promise<User>{
     return handleResponse<ResponseVM<User>>(responseToken).then((data) => data.responseData);
 }
 
-export async function ResetPasswordService(password: string): Promise<User>{
-    const response = await fetch.post(`${SERVER_ENDPOINT}/api/accounts/resetPassword`, password);
+export async function ResetPasswordService(token :string,password: string, confirmPassword :string): Promise<User>{
+    const response = await fetch.post(`${SERVER_ENDPOINT}/api/accounts/resetPassword`, {token,confirmPassword,password});
+
+    return handleResponse<ResponseVM<User>>(response).then((data) => data.responseData);
+}
+export async function ForgetPasswordService(username :string): Promise<User>{
+    const response = await fetch.post(`${SERVER_ENDPOINT}/api/accounts/forgetPassword`, username);
 
     return handleResponse<ResponseVM<User>>(response).then((data) => data.responseData);
 }
 
-export async function getUsersService(password: string): Promise<User>{
-    const responseToken = await fetch.get(`${SERVER_ENDPOINT}/api/getUsers`);
+// export async function getUsersService(password: string): Promise<User>{
+//     const responseToken = await fetch.get(`${SERVER_ENDPOINT}/api/getUsers`);
 
-    return handleResponse<ResponseVM<User>>(responseToken).then((data) => data.responseData);
-}
+//     return handleResponse<ResponseVM<User>>(responseToken).then((data) => data.responseData);
+// }
 
-export async function deleteUserService(id: string): Promise<User>{
-    const responseToken = await fetch.delete(`${SERVER_ENDPOINT}/api/user/${id}`);
+// export async function deleteUserService(id: string): Promise<User>{
+//     const responseToken = await fetch.delete(`${SERVER_ENDPOINT}/api/user/${id}`);
 
-    return handleResponse<ResponseVM<User>>(responseToken).then((data) => data.responseData);
-}
+//     return handleResponse<ResponseVM<User>>(responseToken).then((data) => data.responseData);
+// }
 
 
 // export async function apiLogoutUser(): Promise<void> {    

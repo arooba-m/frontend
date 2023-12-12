@@ -9,7 +9,7 @@ import {
 import { useRouter } from 'next/navigation';
 // import { useUserService } from '@/app/_services/useUserService';
 import {IUser} from '@/app/_store/userStore';
-import { RegisterService } from '@/app/_services/UserService';
+import { RegisterService } from '@/app/_services/authService';
 
 // If 'useUserService' is a custom hook, make sure to import its type definition or create one
 // Example: import { useUserService } from '@/Services/useUserService';

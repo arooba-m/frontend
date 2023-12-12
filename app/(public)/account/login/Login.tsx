@@ -1,18 +1,24 @@
 // components/LoginComponent.tsx
 
 'use client'
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useRef } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
   Avatar, Button, CssBaseline, TextField, Link,
   Paper, Box, Grid, Typography, createTheme, ThemeProvider, Divider
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { LoginService } from '@/app/_services/UserService';
+import { LoginService } from '@/app/_services/authService';
+
+import { Toast } from 'primereact/toast';
 
 export default function LoginComponent() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  
+  const toast = useRef(null);
+
+
   const router = useRouter();
   // const userService = useUserService();
 
@@ -24,12 +30,14 @@ export default function LoginComponent() {
       // Your login logic here
       console.log("Login successful");
 
+      showSuccessToast('Login successful!');
       setUsername("");
       setPassword("");
 
       router.push('/');
     } catch (error) {
       console.error(error);
+      showErrorToast('Login failed. Please check your credentials.');
     }
   }
 
@@ -71,7 +79,23 @@ export default function LoginComponent() {
       },
     },
   });
+  const showSuccessToast = (message: string) => {
+    toast.show({
+      severity: 'success',
+      summary: 'Success Message',
+      detail: message,
+      life: 3000,
+    });
+  };
 
+  const showErrorToast = (message: string) => {
+    toast.show({
+      severity: 'error',
+      summary: 'Error Message',
+      detail: message,
+      life: 3000,
+    });
+  };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ m: 10 }}>
@@ -148,7 +172,7 @@ export default function LoginComponent() {
             </Box>
           </Grid>
         </Grid>
-      </Box>
+      </Box> <Toast ref={toast} />
     </ThemeProvider>
   );
 }
