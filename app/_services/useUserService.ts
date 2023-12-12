@@ -111,7 +111,7 @@ function useUserService(): IUserService {
             if (id === currentUser?.id) {
                 userStore.setState({ currentUser: { ...currentUser, ...params } })
             }
-        },
+        },  
         delete: async (id) => {
             // set isDeleting prop to true on user
             userStore.setState({
