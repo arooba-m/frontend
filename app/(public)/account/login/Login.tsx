@@ -8,19 +8,19 @@ import {
   Paper, Box, Grid, Typography, createTheme, ThemeProvider, Divider
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { useUserService } from '@/app/_services/useUserService';
+import { LoginService } from '@/app/_services/UserService';
 
 export default function LoginComponent() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
-  const userService = useUserService();
+  // const userService = useUserService();
 
   const submitLogin = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await userService.login(username, password);
+      const response = await LoginService(username, password);
       // Your login logic here
       console.log("Login successful");
 

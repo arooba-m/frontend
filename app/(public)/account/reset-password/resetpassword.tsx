@@ -6,7 +6,8 @@ import {
   Paper, Box, Grid, Typography, createTheme, ThemeProvider, Divider
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { useUserService } from '@/app/_services/useUserService';
+// import { useUserService } from '@/app/_services/useUserService';
+import { ResetPasswordService } from '@/app/_services/UserService';
 
 export default function ResetPassword() {
   const [password, setPassword] = useState<string>("");
@@ -14,13 +15,13 @@ export default function ResetPassword() {
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
 
   const router = useRouter();
-  const userService = useUserService();
+  // const userService = useUserService();
 
   const submitReset = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await userService.resetPassword(password);
+      const response = await ResetPasswordService(password);
       // Your login logic here
       console.log("Password successful changed");
 

@@ -1,5 +1,5 @@
-export interface ResponseVM {
+export interface ResponseVM <T> {
     statusCode: string;
     message: string;
-    responseData: any | undefined;
+    responseData: T;
 }

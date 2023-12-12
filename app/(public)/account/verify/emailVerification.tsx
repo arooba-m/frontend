@@ -8,6 +8,7 @@ import {
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import { useRouter } from 'next/navigation';
 import { useUserService} from '@/app/_services/useUserService';
+import { VerifyService } from '@/app/_services/UserService';
 
 export default function EmailVerification() {
     const router = useRouter();
@@ -15,9 +16,10 @@ export default function EmailVerification() {
 
       const submitVerification = async (e: any) => {
         e.preventDefault();
-        const token = ""; //get from response
+        // const token = "";
+        //get from response
         try {
-          const response = await userService.verify(token);
+          const response = await VerifyService();
           // Your login logic here
           console.log("Account Verified successful");
           

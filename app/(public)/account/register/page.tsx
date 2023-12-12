@@ -7,9 +7,9 @@ import {
   Paper, Box, Grid, Typography, createTheme, ThemeProvider, Divider
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-// import useUserService from '@/services/useUserService';
-import { useUserService } from '@/app/_services/useUserService';
+// import { useUserService } from '@/app/_services/useUserService';
 import {IUser} from '@/app/_store/userStore';
+import { RegisterService } from '@/app/_services/UserService';
 
 // If 'useUserService' is a custom hook, make sure to import its type definition or create one
 // Example: import { useUserService } from '@/Services/useUserService';
@@ -26,8 +26,7 @@ const  Signup=()=> {
   const [password, setPassword] = useState("");
 
   const router = useRouter();
-  const userService = useUserService();
-  // const userService: UseUserService = useUserService();
+  // const userService = useUserService();
 
   const submitSignup = async (e: FormEvent) => {
     e.preventDefault();
@@ -35,7 +34,7 @@ const  Signup=()=> {
 
     try {
       // Update this part according to the actual structure of your 'useUserService' hook
-      const response = await userService.register(tempUser);
+      const response = await RegisterService(tempUser);
       // const message = "User registered";
 
       setFirstname("");
