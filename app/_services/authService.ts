@@ -2,8 +2,11 @@
 import useFetch from "../_helpers/useFetch";
 import { ResponseVM } from "../_models/response.model";
 import { User, UserPayload } from "../_models/user.model";
+// import { cookies } from 'next/headers'
+// import { NextRequest, NextResponse } from "next/server";
 
 const SERVER_ENDPOINT = process.env.SERVER_ENDPOINT || "https://oneclicksapi.azurewebsites.net";
+// const SERVER_ENDPOINT = process.env.SERVER_ENDPOINT || "https://localhost:7256";
 
 async function handleResponse<T>(response: Response): Promise<T> {
     const contentType = response.headers.get("Content-Type") || "";
@@ -18,6 +21,21 @@ async function handleResponse<T>(response: Response): Promise<T> {
         throw new Error(data.message || response.statusText);
     }
 
+    // cookies().set({
+    //     name: "token",
+    //     value: data.token,
+    //     path: "/",
+    //   });
+
+
+//     const res = NextResponse.next()
+//   res.cookies.set('vercel', 'fast')
+//   res.cookies.set({
+//     name: 'vercel',
+//     value: 'fast',
+//     path: '/',
+//   })
+
     return data as T;
 }
 const fetch = useFetch();
@@ -29,7 +47,7 @@ export async function RegisterService(payload: UserPayload): Promise<User> {
 }
 
 export async function LoginService(username: string, password: string): Promise<User> {
-    const response = await fetch.post(`${SERVER_ENDPOINT}/api/accounts/login`, {username, password});
+    const response = await fetch.post(`${SERVER_ENDPOINT}/api/Accounts/login`, {username, password});
 
     return handleResponse<ResponseVM<User>>(response).then((data) => data.responseData);
 }

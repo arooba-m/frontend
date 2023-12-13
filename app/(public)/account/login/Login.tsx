@@ -9,8 +9,12 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { LoginService } from '@/app/_services/authService';
+// import { cookies } from 'next/headers';
+// import { Toast } from 'primereact/toast';
+import Cookies from "universal-cookie";
 
-import { Toast } from 'primereact/toast';
+// import Cookies from 'js-cookie';
+
 
 export default function LoginComponent() {
   const [username, setUsername] = useState<string>("");
@@ -21,23 +25,30 @@ export default function LoginComponent() {
 
   const router = useRouter();
   // const userService = useUserService();
-
+  const cookies = new Cookies();
   const submitLogin = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
       const response = await LoginService(username, password);
+         // if (response.token) {
+      //   headers["Authorization"] = `Bearer ${token}`;
+      // }
+      if(response){
+        cookies.set("token", response.token);
+        // cookies.set('authorization', response.token, { httpOnly: true });
+      }
       // Your login logic here
       console.log("Login successful");
 
-      showSuccessToast('Login successful!');
+      // showSuccessToast('Login successful!');
       setUsername("");
       setPassword("");
 
       router.push('/');
     } catch (error) {
       console.error(error);
-      showErrorToast('Login failed. Please check your credentials.');
+      // showErrorToast('Login failed. Please check your credentials.');
     }
   }
 
@@ -79,23 +90,23 @@ export default function LoginComponent() {
       },
     },
   });
-  const showSuccessToast = (message: string) => {
-    toast.show({
-      severity: 'success',
-      summary: 'Success Message',
-      detail: message,
-      life: 3000,
-    });
-  };
+  // const showSuccessToast = (message: string) => {
+  //   toast.show({
+  //     severity: 'success',
+  //     summary: 'Success Message',
+  //     detail: message,
+  //     life: 3000,
+  //   });
+  // };
 
-  const showErrorToast = (message: string) => {
-    toast.show({
-      severity: 'error',
-      summary: 'Error Message',
-      detail: message,
-      life: 3000,
-    });
-  };
+  // const showErrorToast = (message: string) => {
+  //   toast.show({
+  //     severity: 'error',
+  //     summary: 'Error Message',
+  //     detail: message,
+  //     life: 3000,
+  //   });
+  // };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ m: 10 }}>
@@ -172,7 +183,8 @@ export default function LoginComponent() {
             </Box>
           </Grid>
         </Grid>
-      </Box> <Toast ref={toast} />
+      </Box> 
+      {/* <Toast ref={toast} /> */}
     </ThemeProvider>
   );
 }

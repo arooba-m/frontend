@@ -1,7 +1,7 @@
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 const useFetch = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
   return {
     get: request("GET"),
@@ -14,6 +14,7 @@ const useFetch = () => {
     return (url: string, body?: any) => {
       const requestOptions: any = {
         method,
+        // credentials: "include", // Include credentials (e.g., cookies) in the request
       };
       if (body) {
         requestOptions.headers = { "Content-Type": "application/json" };
