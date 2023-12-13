@@ -5,17 +5,17 @@ import {
   Avatar, Button, CssBaseline, TextField, Link,
   Paper, Box, Grid, Typography, createTheme, ThemeProvider, Divider
 } from '@mui/material';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 // import { useUserService } from '@/app/_services/useUserService';
 import { ResetPasswordService } from '@/app/_services/authService';
 
 export default function ResetPassword() {
   const router = useRouter();
-  const  token  = router.query
-  useEffect(() => {
-    // Log the token to the console when the component mounts
-    console.log('Token from URL:', token);
-  }, [token]);
+  // const  token  = router.query
+  // useEffect(() => {
+  //   // Log the token to the console when the component mounts
+  //   console.log('Token from URL:', token);
+  // }, [token]);
 
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -27,6 +27,7 @@ export default function ResetPassword() {
     e.preventDefault();
 
     try {
+      const token = "";
       const response = await ResetPasswordService(token.toString(),confirmPassword,password);
       // Your login logic here
       console.log("Password successful changed");

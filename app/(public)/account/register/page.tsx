@@ -1,6 +1,6 @@
 // check line 164
 'use client'
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState,useEffect, ChangeEvent, FormEvent } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
   Avatar, Button, CssBaseline, TextField, Link,
@@ -8,8 +8,9 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
 // import { useUserService } from '@/app/_services/useUserService';
-import {IUser} from '@/app/_store/userStore';
 import { RegisterService } from '@/app/_services/authService';
+import useStore from '@/app/_store/authStore';
+import { UserPayload } from '@/app/_models/user.model';
 
 // If 'useUserService' is a custom hook, make sure to import its type definition or create one
 // Example: import { useUserService } from '@/Services/useUserService';
@@ -17,26 +18,45 @@ import { RegisterService } from '@/app/_services/authService';
 //   signup: (data: any) => Promise<any>;
 // }
 
-
 const  Signup=()=> {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const router = useRouter();
+  const store = useStore();
+
   // const userService = useUserService();
+  useEffect(() => {
+    if (!store.authUser) {
+      fetchUser();
+    }
+  }, []);
+
+  async function fetchUser() {
+    return store.authUser;
+  }
 
   const submitSignup = async (e: FormEvent) => {
     e.preventDefault();
-    const tempUser: IUser = { firstname, lastname, username, email, password };
+    const tempUser: UserPayload = { firstname, lastname, username, email, password };
 
     try {
-      // Update this part according to the actual structure of your 'useUserService' hook
       const response = await RegisterService(tempUser);
+      
       // const message = "User registered";
-
+      // if(response){
+      //   try {
+      //     store.setAuthUser(response);
+      //   } catch (error: any) {
+      //     console.log("errorrr")
+      //   }
+      //   cookies.set("token", response.token);
+      //   cookies.set("role", response.role);
+      //   jwtVerification(response.token);
+      //   // cookies.set('authorization', response.token, { httpOnly: true });
+      // }
       setFirstname("");
       setLastname("");
       setUsername("");

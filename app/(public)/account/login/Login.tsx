@@ -23,16 +23,15 @@ export default function LoginComponent() {
   const router = useRouter();
   const cookies = new Cookies();
 
-  useEffect(() => {
-    if (!store.authUser) {
-      fetchUser();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!store.authUser) {
+  //     fetchUser();
+  //   }
+  // }, []);
 
-  async function fetchUser() {
-    // console.log("user store1: " ,store.authUser);
-    return store.authUser;
-  }
+  // async function fetchUser() {
+  //   return store.authUser;
+  // }
 
   const submitLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -42,19 +41,15 @@ export default function LoginComponent() {
       //   headers["Authorization"] = `Bearer ${token}`;
       // } 
       if(response){
-        // console.log("response: " ,response);
         try {
           store.setAuthUser(response);
           // console.log("user store2: " ,store.authUser);
         } catch (error: any) {
           console.log("errorrr")
         }
-    
         cookies.set("token", response.token);
         cookies.set("role", response.role);
-
         jwtVerification(response.token);
-
         // cookies.set('authorization', response.token, { httpOnly: true });
       }
       // Your login logic here
@@ -64,7 +59,7 @@ export default function LoginComponent() {
       setUsername("");
       setPassword("");
 
-      // router.push('/');
+      router.push('/');
     } catch (error) {
       console.error(error);
       // showErrorToast('Login failed. Please check your credentials.');
@@ -196,7 +191,7 @@ export default function LoginComponent() {
                       fontWeight: 500,
                     }
                   }}>
-                  <p>Don't have an account? Signup</p>
+                  <p>Don&apos;t have an account? Signup</p>
                 </Link>
               </Box>
             </Box>
