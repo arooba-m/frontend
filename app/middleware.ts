@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyJWT } from "./libs/auth";
+import { verifyJWT } from "./lib/token";
 // import { getErrorResponse } from "./lib/helpers";
 
 interface AuthenticatedRequest extends NextRequest {
@@ -10,29 +10,30 @@ interface AuthenticatedRequest extends NextRequest {
 
 let redirectToLogin = false;
 export async function middleware(req: NextRequest) {
+
+  console.log("in middleware")
   let token: string | undefined;
 
   if (req.cookies.has("token")) {
     token = req.cookies.get("token")?.value;
-    console.log("got cookie");
   } else if (req.headers.get("Authorization")?.startsWith("Bearer ")) {
     token = req.headers.get("Authorization")?.substring(7);
   }
 
-  if (req.nextUrl.pathname.startsWith("/login") && (!token || redirectToLogin))
+  if (req.nextUrl.pathname.startsWith("/accounts/login") && (!token || redirectToLogin))
     return;
 
-  if (
-    !token &&
-    (req.nextUrl.pathname.startsWith("/api/users") ||
-      req.nextUrl.pathname.startsWith("/api/auth/logout"))
-  ) {
-    console.log(      "You are not logged in. Please provide a token to gain access.")
-    // return getErrorResponse(
-    //   401,
-    //   "You are not logged in. Please provide a token to gain access."
-    // );
-  }
+  // if (
+  //   !token &&
+  //   (req.nextUrl.pathname.startsWith("/api/users") ||
+  //     req.nextUrl.pathname.startsWith("/api/auth/logout"))
+  // ) {
+  //   console.log("You are not logged in. Please provide a token to gain access.")
+  //   // return getErrorResponse(
+  //   //   401,
+  //   //   "You are not logged in. Please provide a token to gain access."
+  //   // );
+  // }
 
   const response = NextResponse.next();
 
@@ -45,7 +46,7 @@ export async function middleware(req: NextRequest) {
   } catch (error) {
     redirectToLogin = true;
     if (req.nextUrl.pathname.startsWith("/api")) {
-      console.log("Token is invalid or user doesn't exists")
+      console.log( "Token is invalid or user doesn't exists");
       // return getErrorResponse(401, "Token is invalid or user doesn't exists");
     }
 

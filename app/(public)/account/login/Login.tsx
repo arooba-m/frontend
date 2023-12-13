@@ -9,12 +9,10 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { LoginService } from '@/app/_services/authService';
-// import { cookies } from 'next/headers';
 // import { Toast } from 'primereact/toast';
 import Cookies from "universal-cookie";
 import useStore from '@/app/_store/authStore';
-// import useStore from "../_store/authStore";
-// import Cookies from 'js-cookie';
+import { jwtVerification } from '@/app/_helpers/jwt-verification';
 
 export default function LoginComponent() {
   const [username, setUsername] = useState<string>("");
@@ -32,7 +30,7 @@ export default function LoginComponent() {
   }, []);
 
   async function fetchUser() {
-    console.log("user store1: " ,store.authUser);
+    // console.log("user store1: " ,store.authUser);
     return store.authUser;
   }
 
@@ -44,15 +42,17 @@ export default function LoginComponent() {
       //   headers["Authorization"] = `Bearer ${token}`;
       // } 
       if(response){
-        console.log("response: " ,response);
+        // console.log("response: " ,response);
         try {
           store.setAuthUser(response);
-          console.log("user store2: " ,store.authUser);
+          // console.log("user store2: " ,store.authUser);
         } catch (error: any) {
           console.log("errorrr")
         }
     
         cookies.set("token", response.token);
+        jwtVerification(response.token);
+
         // cookies.set('authorization', response.token, { httpOnly: true });
       }
       // Your login logic here
@@ -62,7 +62,7 @@ export default function LoginComponent() {
       setUsername("");
       setPassword("");
 
-      router.push('/');
+      // router.push('/');
     } catch (error) {
       console.error(error);
       // showErrorToast('Login failed. Please check your credentials.');

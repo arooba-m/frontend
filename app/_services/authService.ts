@@ -1,6 +1,9 @@
+import { jwtMiddleware } from "../_helpers/jwt-middleware";
 import useFetch from "../_helpers/useFetch";
 import { ResponseVM } from "../_models/response.model";
 import { User, UserPayload } from "../_models/user.model";
+// import {useAuth} from "../_helpers/useAuth";
+// import { middleware } from "../middleware";
 
 const SERVER_ENDPOINT = process.env.SERVER_ENDPOINT || "https://oneclicksapi.azurewebsites.net";
 // const SERVER_ENDPOINT = process.env.SERVER_ENDPOINT || "https://localhost:7256";
@@ -17,22 +20,8 @@ async function handleResponse<T>(response: Response): Promise<T> {
 
         throw new Error(data.message || response.statusText);
     }
-
-    // cookies().set({
-    //     name: "token",
-    //     value: data.token,
-    //     path: "/",
-    //   });
-
-
-//     const res = NextResponse.next()
-//   res.cookies.set('vercel', 'fast')
-//   res.cookies.set({
-//     name: 'vercel',
-//     value: 'fast',
-//     path: '/',
-//   })
-
+    // middleware();
+    // useAuth();
     return data as T;
 }
 const fetch = useFetch();
@@ -45,6 +34,7 @@ export async function RegisterService(payload: UserPayload): Promise<User> {
 
 export async function LoginService(username: string, password: string): Promise<User> {
     const response = await fetch.post(`${SERVER_ENDPOINT}/api/Accounts/login`, {username, password});
+   
     return handleResponse<ResponseVM<User>>(response).then((data) => data.responseData);
 }
 

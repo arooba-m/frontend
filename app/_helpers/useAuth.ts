@@ -2,8 +2,9 @@
 import React from "react";
 import Cookies from "universal-cookie";
 import { verifyJwtToken } from "@/libs/auth";
+// import { jwtVerify } from "jose";
 
-export function useAuth() {
+export function useAuth(){
   const [auth, setAuth] = React.useState(null);
 
   const getVerifiedtoken = async () => {
@@ -17,3 +18,4 @@ export function useAuth() {
   }, []);
   return auth;
 }
+
