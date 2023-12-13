@@ -6,7 +6,7 @@ export { jwtMiddleware };
 
 async function jwtMiddleware(req: NextRequest) {
     if (isPublicPath(req))
-        return;
+        return;        
 
     // verify token in request cookie
     const id = auth.verifyToken();
@@ -16,9 +16,9 @@ async function jwtMiddleware(req: NextRequest) {
 function isPublicPath(req: NextRequest) {
     // public routes that don't require authentication
     const publicPaths = [
-        'POST:/api/account/login',
-        'POST:/api/account/logout',
-        'POST:/api/account/register'
+        'POST:/api/accounts/login',
+        'POST:/api/accounts/logout',
+        'POST:/api/accounts/register'
     ];
     return publicPaths.includes(`${req.method}:${req.nextUrl.pathname}`);
 }

@@ -51,6 +51,8 @@ export default function LoginComponent() {
         }
     
         cookies.set("token", response.token);
+        cookies.set("role", response.role);
+
         jwtVerification(response.token);
 
         // cookies.set('authorization', response.token, { httpOnly: true });
