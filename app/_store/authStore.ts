@@ -1,24 +1,18 @@
-"use client";
+// "use client";
 
 import { User } from "../_models/user.model";
-// import { FilteredUser } from "@/lib/types";
 import { create } from "zustand";
 
-type Store = {
-  authUser: User | null;
- // requestLoading: boolean;
-  setAuthUser: (user: User | null) => void;
- // setRequestLoading: (isLoading: boolean) => void;
-  //reset: () => void;
-};
-
+interface Store {
+    authUser: User | null;
+    setAuthUser: (user: User) => void;
+  }
+  
 const useStore = create<Store>((set) => ({
-  authUser: null,
- // requestLoading: false,
-  setAuthUser: (user) => set((state) => ({ ...state, authUser: user })),
- // setRequestLoading: (isLoading) =>
- //   set((state) => ({ ...state, requestLoading: isLoading })),
-  //reset: () => set({ authUser: null, requestLoading: false }),
-}));
+    authUser: null,
+    setAuthUser: (user) => {
+        set({ authUser: user });
+      },
+}))
 
 export default useStore;

@@ -1,7 +1,7 @@
 // components/LoginComponent.tsx
 
 'use client'
-import React, { useState, ChangeEvent, FormEvent, useRef } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent, useRef } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
   Avatar, Button, CssBaseline, TextField, Link,
@@ -12,29 +12,46 @@ import { LoginService } from '@/app/_services/authService';
 // import { cookies } from 'next/headers';
 // import { Toast } from 'primereact/toast';
 import Cookies from "universal-cookie";
-
+import useStore from '@/app/_store/authStore';
+// import useStore from "../_store/authStore";
 // import Cookies from 'js-cookie';
-
 
 export default function LoginComponent() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   
   const toast = useRef(null);
-
-
+  const store = useStore();
   const router = useRouter();
-  // const userService = useUserService();
   const cookies = new Cookies();
+
+  useEffect(() => {
+    if (!store.authUser) {
+      fetchUser();
+    }
+  }, []);
+
+  async function fetchUser() {
+    console.log("user store1: " ,store.authUser);
+    return store.authUser;
+  }
+
   const submitLogin = async (e: FormEvent) => {
     e.preventDefault();
-
     try {
       const response = await LoginService(username, password);
          // if (response.token) {
       //   headers["Authorization"] = `Bearer ${token}`;
-      // }
+      // } 
       if(response){
+        console.log("response: " ,response);
+        try {
+          store.setAuthUser(response);
+          console.log("user store2: " ,store.authUser);
+        } catch (error: any) {
+          console.log("errorrr")
+        }
+    
         cookies.set("token", response.token);
         // cookies.set('authorization', response.token, { httpOnly: true });
       }

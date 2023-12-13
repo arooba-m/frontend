@@ -1,10 +1,6 @@
-// import { FilteredUser, UserLoginResponse, UserResponse } from "./types";
 import useFetch from "../_helpers/useFetch";
 import { ResponseVM } from "../_models/response.model";
 import { User, UserPayload } from "../_models/user.model";
-import useStore from "../_store/authStore";
-// import { cookies } from 'next/headers'
-// import { NextRequest, NextResponse } from "next/server";
 
 const SERVER_ENDPOINT = process.env.SERVER_ENDPOINT || "https://oneclicksapi.azurewebsites.net";
 // const SERVER_ENDPOINT = process.env.SERVER_ENDPOINT || "https://localhost:7256";
@@ -40,7 +36,6 @@ async function handleResponse<T>(response: Response): Promise<T> {
     return data as T;
 }
 const fetch = useFetch();
-const store = useStore();
 
 export async function RegisterService(payload: UserPayload): Promise<User> {
     const response = await fetch.post(`${SERVER_ENDPOINT}/api/accounts/register`, payload);
@@ -50,8 +45,6 @@ export async function RegisterService(payload: UserPayload): Promise<User> {
 
 export async function LoginService(username: string, password: string): Promise<User> {
     const response = await fetch.post(`${SERVER_ENDPOINT}/api/Accounts/login`, {username, password});
- 
-    // store.setAuthUser(user);
     return handleResponse<ResponseVM<User>>(response).then((data) => data.responseData);
 }
 
