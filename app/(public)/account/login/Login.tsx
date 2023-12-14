@@ -1,23 +1,41 @@
 // components/LoginComponent.tsx
 
-'use client'
-import React, { useState, useEffect, ChangeEvent, FormEvent, useRef } from 'react';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+"use client";
+import React, {
+  useState,
+  useEffect,
+  ChangeEvent,
+  FormEvent,
+  useRef,
+} from "react";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Image from "next/image";
+
 import {
-  Avatar, Button, CssBaseline, TextField, Link,
-  Paper, Box, Grid, Typography, createTheme, ThemeProvider, Divider
-} from '@mui/material';
-import { useRouter } from 'next/navigation';
-import { LoginService } from '@/app/_services/authService';
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+  createTheme,
+  ThemeProvider,
+  Divider,
+} from "@mui/material";
+import { useRouter } from "next/navigation";
+import { LoginService } from "@/app/_services/authService";
 // import { Toast } from 'primereact/toast';
 import Cookies from "universal-cookie";
-import useStore from '@/app/_store/authStore';
-import { jwtVerification } from '@/app/_helpers/jwt-verification';
+import useStore from "@/app/_store/authStore";
+import { jwtVerification } from "@/app/_helpers/jwt-verification";
 
 export default function LoginComponent() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  
+
   const toast = useRef(null);
   const store = useStore();
   const router = useRouter();
@@ -37,19 +55,19 @@ export default function LoginComponent() {
     e.preventDefault();
     try {
       const response = await LoginService(username, password);
-         // if (response.token) {
+      // if (response.token) {
       //   headers["Authorization"] = `Bearer ${token}`;
-      // } 
-      if(response){
+      // }
+      if (response) {
         try {
           store.setAuthUser(response);
-          // console.log("user store2: " ,store.authUser);
+          console.log("user store2: " ,store.authUser);
         } catch (error: any) {
-          console.log("errorrr")
+          console.log("errorrr");
         }
         cookies.set("token", response.token);
         cookies.set("role", response.role);
-        jwtVerification(response.token);
+        // jwtVerification(response.token);
         // cookies.set('authorization', response.token, { httpOnly: true });
       }
       // Your login logic here
@@ -59,12 +77,12 @@ export default function LoginComponent() {
       setUsername("");
       setPassword("");
 
-      router.push('/');
+      router.push("/home");
     } catch (error) {
       console.error(error);
       // showErrorToast('Login failed. Please check your credentials.');
     }
-  }
+  };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -79,26 +97,27 @@ export default function LoginComponent() {
       default:
         break;
     }
-  }
+  };
 
   const defaultTheme = createTheme({
     typography: {
-      fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+      fontFamily:
+        'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
     },
     components: {
       MuiInputBase: {
         styleOverrides: {
           root: {
-            width: '360px',
-            boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16)',
-            borderRadius: '8px',
-            '& .MuiInputLabel-root': {
-              transform: 'translateY(50%)',
+            width: "360px",
+            boxShadow: "0 3px 6px rgba(0, 0, 0, 0.16)",
+            borderRadius: "8px",
+            "& .MuiInputLabel-root": {
+              transform: "translateY(50%)",
             },
           },
           input: {
-            borderRadius: '50%',
-            height: '15px',
+            borderRadius: "50%",
+            height: "15px",
           },
         },
       },
@@ -123,32 +142,72 @@ export default function LoginComponent() {
   // };
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ m: 10 }}>
-        <Grid container component={Paper} elevation={24} square={false} sx={{ borderRadius: '20px', boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)' }}>
+      <Box sx={{ m: 7 }}>
+        <Grid
+          container
+          component={Paper}
+          elevation={24}
+          square={false}
+          sx={{
+            borderRadius: "20px",
+            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
+          }}
+        >
           <CssBaseline />
-          <Grid item xs={false} md={6} sx={{ m: 'auto' }}>
-            <img src="/Images/signupImage.svg" alt="" />
+          <Grid
+            item
+            sx={{
+              m: "auto",
+              display: { xs: "none", md: "block" }, // hide on extra-small screens, show on medium screens
+            }}
+          >
+            <Image
+              src="/Images/signupImage.svg"
+              width={640}
+              height={442.66}
+              priority={true}
+              alt="loginpageimage"
+              // style={{ width: '100%', height: 'auto', aspectRatio: '640 / 442.66' }}
+
+            />
+            {/* <img src="/Images/signupImage.svg" alt="" /> */}
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <Box sx={{ my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <Avatar sx={{ m: 1, bgcolor: '#597FB5' }}>
+            <Box
+              sx={{
+                my: 8,
+                mx: 4,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Avatar sx={{ m: 1, bgcolor: "#597FB5" }}>
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5" sx={{ fontWeight: 700 }}>
                 Login
               </Typography>
-              <Box component="form" onSubmit={submitLogin}
+              <Box
+                component="form"
+                onSubmit={submitLogin}
                 sx={{
                   mt: 3,
-                  textAlign: 'center'
-                }}>
-                <TextField margin="normal" required
-                  id="username" label="Username"
-                  name="username" type='text'
+                  textAlign: "center",
+                }}
+              >
+                <TextField
+                  margin="normal"
+                  required
+                  id="username"
+                  label="Username"
+                  name="username"
+                  type="text"
                   autoFocus
-                  autoComplete='username'
-                  value={username} onChange={onChange}
+                  autoComplete="username"
+                  value={username}
+                  onChange={onChange}
                 />
                 <TextField
                   margin="normal"
@@ -158,46 +217,61 @@ export default function LoginComponent() {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  value={password} onChange={onChange}
+                  value={password}
+                  onChange={onChange}
                 />
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   sx={{
-                    mt: 3, mb: 2,
-                    width: '360px',
+                    mt: 3,
+                    mb: 2,
+                    width: "360px",
                     backgroundColor: "#597FB5 !important",
                     color: "#fff !important",
-                    '&:hover': {
+                    "&:hover": {
                       backgroundColor: "#405D80 !important",
                     },
-                  }}> Login
+                  }}
+                >
+                  {" "}
+                  Login
                 </Button>
                 <Divider variant="middle" sx={{ mb: 2 }} />
-                <Link href="#resetPassword" variant="body2" textAlign="center"
+                <Link
+                  href="#resetPassword"
+                  variant="body2"
+                  textAlign="center"
                   sx={{
-                    fontWeight: 600, color: '#597FB5',
-                    '&:hover': {
+                    fontWeight: 600,
+                    color: "#597FB5",
+                    "&:hover": {
                       fontWeight: 500,
-                    }
-                  }}>
+                    },
+                  }}
+                >
                   <p>Forgot password?</p>
                 </Link>
-                <Link href="/account/register" variant="body2" textAlign="center"
+                <Link
+                  href="/account/register"
+                  variant="body2"
+                  textAlign="center"
                   sx={{
-                    fontWeight: 600, color: '#597FB5',
-                    '&:hover': {
+                    fontWeight: 600,
+                    color: "#597FB5",
+                    "&:hover": {
                       fontWeight: 500,
-                    }
-                  }}>
+                    },
+                  }}
+                >
                   <p>Don&apos;t have an account? Signup</p>
                 </Link>
               </Box>
             </Box>
           </Grid>
         </Grid>
-      </Box> 
+      </Box>
       {/* <Toast ref={toast} /> */}
     </ThemeProvider>
   );

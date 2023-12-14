@@ -95,21 +95,20 @@ export default function ResetPassword() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ m: 10 }}>
-        <Grid container component={Paper} elevation={24} square={false} sx={{ borderRadius: '20px', boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)' }}>
-          <CssBaseline />
-          <Grid item xs={false} md={6} sx={{ m: 'auto' }}>
-            <img src="/Images/signupImage.svg" alt="" />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <Box sx={{ my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <Avatar sx={{ m: 1, bgcolor: '#597FB5' }}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5" sx={{ fontWeight: 700 }}>
+    <Box component={Paper} elevation={24} square={false}
+        sx={{
+            mx: 'auto',
+            maxWidth: '600px',
+            // mr: 10, ml: 10, mt: 10,
+            borderRadius: '20px', boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
+        }}>
+        <Box sx={{ my: 8, mx: 4, py:8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+               <Avatar sx={{ m: 1, bgcolor: '#597FB5' }}>
+    <LockOutlinedIcon />
+               </Avatar>
+               <Typography component="h1" variant="h5" sx={{ fontWeight: 700 }}>
                 Reset Password
-              </Typography>
+           </Typography>
               <Box component="form" onSubmit={submitReset}
                 sx={{
                   mt: 3,
@@ -151,11 +150,71 @@ export default function ResetPassword() {
                   }}> Reset Password
                 </Button>
                
-              </Box>
+          </Box>
             </Box>
-          </Grid>
-        </Grid>
-      </Box>
-    </ThemeProvider>
+             </Box>
+</ThemeProvider>
+
+    // <ThemeProvider theme={defaultTheme}>
+    //   <Box sx={{ m: 10 }}>
+    //     <Grid container component={Paper} elevation={24} square={false} sx={{ borderRadius: '20px', boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)' }}>
+    //       <CssBaseline />
+    //       <Grid item xs={false} md={6} sx={{ m: 'auto' }}>
+    //         <img src="/Images/signupImage.svg" alt="" />
+    //       </Grid>
+    //       <Grid item xs={12} md={6}>
+    //         <Box sx={{ my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    //           <Avatar sx={{ m: 1, bgcolor: '#597FB5' }}>
+    //             <LockOutlinedIcon />
+    //           </Avatar>
+    //           <Typography component="h1" variant="h5" sx={{ fontWeight: 700 }}>
+    //             Reset Password
+    //           </Typography>
+    //           <Box component="form" onSubmit={submitReset}
+    //             sx={{
+    //               mt: 3,
+    //               textAlign: 'center'
+    //             }}>
+    //             <TextField
+    //               margin="normal"
+    //               required
+    //               name="password"
+    //               label="Password"
+    //               type="password"
+    //               id="password"
+    //               autoComplete="current-password"
+    //               value={password} onChange={onChange}
+    //             />
+    //               <TextField  margin="normal"
+    //               required
+    //               name="confirmPassword"
+    //               label="Comfirm Password"
+    //               type="password"
+    //               id="confirmPassword"
+    //               autoComplete="current-password"
+    //               value={confirmPassword} onChange={onChange}
+    //               error={!passwordsMatch}
+    //               helperText={!passwordsMatch ? "Passwords do not match" : ""}
+    //             />
+    //             <Button
+    //               type="submit"
+    //               fullWidth
+    //               variant="contained"
+    //               sx={{
+    //                 mt: 3, mb: 2,
+    //                 width: '360px',
+    //                 backgroundColor: "#597FB5 !important",
+    //                 color: "#fff !important",
+    //                 '&:hover': {
+    //                   backgroundColor: "#405D80 !important",
+    //                 },
+    //               }}> Reset Password
+    //             </Button>0     
+    //           </Box>
+    //         </Box>
+    //       </Grid>
+    //     </Grid>
+    //   </Box>
+    // </ThemeProvider>
   );
 }

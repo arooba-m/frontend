@@ -11,13 +11,17 @@ import { VerifyService } from '@/app/_services/authService';
 
 export default function EmailVerification() {
     const router = useRouter();
+        //get token from params
 
       const submitVerification = async (e: any) => {
         e.preventDefault();
         const token = "";
         //get from response
         try {
+
           const response = await VerifyService(token);
+            //check status code, if 200 then route to login page.
+            
           // Your login logic here
           console.log("Account Verified successful");
           

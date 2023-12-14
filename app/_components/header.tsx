@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
+import Image from 'next/image';
 import {
   AppBar, Box, Toolbar, IconButton, Typography,
   Menu, Container, Button, Tooltip,
@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useTheme, createTheme, ThemeProvider, Theme } from '@mui/material/styles';
+// import { useTheme, createTheme, ThemeProvider, Theme } from '@mui/material/styles';
 
 function HeaderComponent() {
   const [loggingOut, setLoggingOut] = useState(false);
@@ -87,8 +87,12 @@ function HeaderComponent() {
                     flexGrow: 1,
                     height: 25
                 }}>
-                    <img src='/Images/logo.png'
-                        alt="OneClicks" />
+                <Image
+                src='/Images/logo.png' 
+                width={134}
+                height={25}
+                alt="OneClicks"
+                />
                 </Box>
 
                 <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -145,8 +149,13 @@ function HeaderComponent() {
                     flexGrow: 1,
                     height: 25
                 }}>
-                    <img src='/Images/logo.png'
-                        alt="OneClicks" />
+                
+                <Image
+                src='/Images/logo.png' 
+                width={134}
+                height={25}
+                alt="OneClicks"
+                />
                 </Box>
 
 

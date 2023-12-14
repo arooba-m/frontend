@@ -7,6 +7,7 @@ import {
   Paper, Box, Grid, Typography, createTheme, ThemeProvider, Divider
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 // import { useUserService } from '@/app/_services/useUserService';
 import { RegisterService } from '@/app/_services/authService';
 import useStore from '@/app/_store/authStore';
@@ -25,18 +26,17 @@ const  Signup=()=> {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  const store = useStore();
 
   // const userService = useUserService();
-  useEffect(() => {
-    if (!store.authUser) {
-      fetchUser();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!store.authUser) {
+  //     fetchUser();
+  //   }
+  // }, []);
 
-  async function fetchUser() {
-    return store.authUser;
-  }
+  // async function fetchUser() {
+  //   return store.authUser;
+  // }
 
   const submitSignup = async (e: FormEvent) => {
     e.preventDefault();
@@ -44,19 +44,10 @@ const  Signup=()=> {
 
     try {
       const response = await RegisterService(tempUser);
-      
-      // const message = "User registered";
-      // if(response){
-      //   try {
-      //     store.setAuthUser(response);
-      //   } catch (error: any) {
-      //     console.log("errorrr")
-      //   }
-      //   cookies.set("token", response.token);
-      //   cookies.set("role", response.role);
-      //   jwtVerification(response.token);
-      //   // cookies.set('authorization', response.token, { httpOnly: true });
-      // }
+      if(response.statusCode == "200"){
+      //if status code 200, toaster. 
+      }
+
       setFirstname("");
       setLastname("");
       setUsername("");
@@ -122,9 +113,25 @@ const  Signup=()=> {
       <Box sx={{ m: 10 }}>
         <Grid container component={Paper} elevation={24} square={false} sx={{ borderRadius: '20px', boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)' }}>
           <CssBaseline />
-          <Grid item xs={false} md={6} sx={{ m: 'auto' }}>
-            <img src="/Images/signupImage.svg" alt="" />
+          <Grid
+            item
+            sx={{
+              m: "auto",
+              display: { xs: "none", md: "block" }, // hide on extra-small screens, show on medium screens
+            }}
+          >
+            <Image
+              src="/Images/signupImage.svg"
+              width={640}
+              height={442.66}
+              priority={true}
+              alt="loginpageimage"
+            />
+            {/* <img src="/Images/signupImage.svg" alt="" /> */}
           </Grid>
+          {/* <Grid item xs={false} md={6} sx={{ m: 'auto' }}>
+            <img src="/Images/signupImage.svg" alt="" />
+          </Grid> */}
 
           <Grid item xs={12} md={6}>
             <Box sx={{ my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

@@ -41,7 +41,7 @@ export async function LoginService(username: string, password: string): Promise<
 export async function VerifyService(token: string): Promise<User>{
     const fetch = useFetch();
     const verifyToken = await fetch.post(`${SERVER_ENDPOINT}/api/accounts/verify`, token);
-
+    
     return handleResponse<ResponseVM<User>>(verifyToken).then((data) => data.responseData);
 }
 
