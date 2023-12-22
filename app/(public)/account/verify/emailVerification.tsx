@@ -1,35 +1,61 @@
 'use client'
-import React, { useState} from 'react';
+import React, { useState, useRef} from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
     Avatar, Button, CssBaseline, Link,
     Paper, Box, Typography, createTheme, ThemeProvider, Divider
 } from '@mui/material';
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+
 import { VerifyService } from '@/app/_services/authService';
+
+import { Toast} from 'primereact/toast';
+import 'primereact/resources/themes/lara-light-cyan/theme.css';
+import { PrimeReactProvider } from 'primereact/api';
 
 export default function EmailVerification() {
     const router = useRouter();
+    const toast = useRef<Toast>(null);
+    const searchParams = useSearchParams()
         //get token from params
-
-      const submitVerification = async (e: any) => {
-        e.preventDefault();
-        const token = "";
-        //get from response
-        try {
-
-          const response = await VerifyService(token);
-            //check status code, if 200 then route to login page.
+    const showSuccessToast = (message: string) => {
+        toast.current?.show({
+            severity: 'success',
+            summary: 'Success',
+            detail: message,
+            life: 3000,
+        });
+    };
+    
+    const showErrorToast = (message: string) => {
+        toast.current?.show({
+            severity: 'error',
+            summary: 'Error Message',
+            detail: message,
+            life: 3000,
+        });
+    };
+        
+    const submitVerification = async (e: any) => {
+    e.preventDefault();
+    const token = searchParams.get("token");
+    try {
+        if(token!==""){
+            const response = await VerifyService(token);
             
-          // Your login logic here
-          console.log("Account Verified successful");
-          
-          router.push('/');
-        } catch (error) {
-          console.error(error);
+            if(response.statusCode=="200"){
+                showSuccessToast("Account Verified Successfully!");
+                router.push('/accounts/login');
+            }
+            //check status code, if 200 then route to login page.        
+        router.push('/');
         }
-      }
+    } catch (error) {
+        showErrorToast("Verification failed.");
+        // console.error(error);
+    }
+    }
 
     const defaultTheme = createTheme({
         typography: {
@@ -38,6 +64,7 @@ export default function EmailVerification() {
     });
 
     return (
+        <>
         <ThemeProvider theme={defaultTheme}>
             <Box component={Paper} elevation={24} square={false}
                 sx={{
@@ -98,5 +125,12 @@ export default function EmailVerification() {
                 </Box>
                      </Box>
         </ThemeProvider>
+
+        <PrimeReactProvider>
+    <div className="card flex justify-content-center">  
+    <Toast ref={toast} />
+      </div>    
+    </PrimeReactProvider>  
+      </>
     );
 }

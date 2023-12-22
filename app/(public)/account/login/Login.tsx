@@ -25,21 +25,28 @@ import {
   ThemeProvider,
   Divider,
 } from "@mui/material";
+
 import { useRouter } from "next/navigation";
-import { LoginService } from "@/app/_services/authService";
-// import { Toast } from 'primereact/toast';
+import { LoginService, ForgetPasswordService } from "@/app/_services/authService";
 import Cookies from "universal-cookie";
 import useStore from "@/app/_store/authStore";
 import { jwtVerification } from "@/app/_helpers/jwt-verification";
 
+import { Toast} from 'primereact/toast';
+import 'primereact/resources/themes/lara-light-cyan/theme.css';
+import { PrimeReactProvider } from 'primereact/api';
+import { Dialog } from 'primereact/dialog';
+
 export default function LoginComponent() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [ForgotPassUsername,setForgotPassUsername] = useState<string>("");
+  const [visible, setVisible] = useState<boolean>(false); 
 
-  const toast = useRef(null);
   const store = useStore();
   const router = useRouter();
   const cookies = new Cookies();
+  const toast = useRef<Toast>(null);
 
   // useEffect(() => {
   //   if (!store.authUser) {
@@ -50,6 +57,30 @@ export default function LoginComponent() {
   // async function fetchUser() {
   //   return store.authUser;
   // }
+
+  const submitForgotPassword = async (e: FormEvent) => {
+    // console.log(username)
+
+    e.preventDefault();
+    try {
+
+      const response = await ForgetPasswordService(username);
+      // console.log("response: ", response);
+      if (response.statusCode == "200") {
+        cookies.set("token", response.responseData.token);
+        showSuccessToast("Reset password Link sent to your email!");
+      }
+      else{
+        showErrorToast("Please enter correct registered username.");
+      }
+      
+      setForgotPassUsername("");
+
+      // router.push("/home");
+    } catch (error) {
+      showErrorToast("Please enter correct registered username.");
+    }
+  }
 
   const submitLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -70,17 +101,15 @@ export default function LoginComponent() {
         // jwtVerification(response.token);
         // cookies.set('authorization', response.token, { httpOnly: true });
       }
-      // Your login logic here
-      console.log("Login successful");
-
-      // showSuccessToast('Login successful!');
+      
+      showSuccessToast("Logged in successfully!");
       setUsername("");
       setPassword("");
 
       router.push("/home");
     } catch (error) {
       console.error(error);
-      // showErrorToast('Login failed. Please check your credentials.');
+      showErrorToast("Login failed. Please check your credentials.");
     }
   };
 
@@ -94,9 +123,30 @@ export default function LoginComponent() {
       case "password":
         setPassword(value);
         break;
+      case "ForgotPassUsername":
+        setForgotPassUsername(value);
+        break;
       default:
         break;
     }
+  };
+
+  const showSuccessToast = (message: string) => {
+    toast.current?.show({
+      severity: 'success',
+      summary: 'Success',
+      detail: message,
+      life: 3000,
+    });
+  };
+
+   const showErrorToast = (message: string) => {
+    toast.current?.show({
+      severity: 'error',
+      summary: 'Error Message',
+      detail: message,
+      life: 3000,
+    });
   };
 
   const defaultTheme = createTheme({
@@ -109,6 +159,7 @@ export default function LoginComponent() {
         styleOverrides: {
           root: {
             width: "360px",
+            // width: "100%",
             boxShadow: "0 3px 6px rgba(0, 0, 0, 0.16)",
             borderRadius: "8px",
             "& .MuiInputLabel-root": {
@@ -123,24 +174,9 @@ export default function LoginComponent() {
       },
     },
   });
-  // const showSuccessToast = (message: string) => {
-  //   toast.show({
-  //     severity: 'success',
-  //     summary: 'Success Message',
-  //     detail: message,
-  //     life: 3000,
-  //   });
-  // };
 
-  // const showErrorToast = (message: string) => {
-  //   toast.show({
-  //     severity: 'error',
-  //     summary: 'Error Message',
-  //     detail: message,
-  //     life: 3000,
-  //   });
-  // };
   return (
+    <>
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ m: 7 }}>
         <Grid
@@ -158,19 +194,25 @@ export default function LoginComponent() {
             item
             sx={{
               m: "auto",
-              display: { xs: "none", md: "block" }, // hide on extra-small screens, show on medium screens
+              display: { xs: "none", sm: "none", md: "block", lg:"block", xl:"block" }, // hide on extra-small screens, show on medium screens
             }}
           >
             <Image
               src="/Images/signupImage.svg"
-              width={640}
-              height={442.66}
-              priority={true}
+              width={456 }
+              height={304 }
+              alt="loginpageimage"
+            />
+            {/* <Image
+              src="/Images/signupImage.svg"
+              width={200}
+              height={200}
+              // width={640}
+              // height={412.66}
+              // priority={true}
               alt="loginpageimage"
               // style={{ width: '100%', height: 'auto', aspectRatio: '640 / 442.66' }}
-
-            />
-            {/* <img src="/Images/signupImage.svg" alt="" /> */}
+            /> */}
           </Grid>
 
           <Grid item xs={12} md={6}>
@@ -228,6 +270,7 @@ export default function LoginComponent() {
                     mt: 3,
                     mb: 2,
                     width: "360px",
+                    // width: "66%",
                     backgroundColor: "#597FB5 !important",
                     color: "#fff !important",
                     "&:hover": {
@@ -240,7 +283,7 @@ export default function LoginComponent() {
                 </Button>
                 <Divider variant="middle" sx={{ mb: 2 }} />
                 <Link
-                  href="#resetPassword"
+                  // href="#forgotpassword"
                   variant="body2"
                   textAlign="center"
                   sx={{
@@ -250,8 +293,9 @@ export default function LoginComponent() {
                       fontWeight: 500,
                     },
                   }}
+                  onClick={() => setVisible(true)}
                 >
-                  <p>Forgot password?</p>
+                <p>Forgot password?</p>
                 </Link>
                 <Link
                   href="/account/register"
@@ -272,7 +316,93 @@ export default function LoginComponent() {
           </Grid>
         </Grid>
       </Box>
-      {/* <Toast ref={toast} /> */}
-    </ThemeProvider>
+      </ThemeProvider>
+
+    <div className=" bg-teal-500 card flex justify-content-center">
+    <Dialog header="Forgot Your Password?"  
+    className="shadow-8 m-3 surface-card "  
+     // align="center"
+    // headerClassName="flex align-items-center"
+     visible={visible} onHide={() => setVisible(false)}
+        style={{ width: '50vw',
+      color:'bg-teal-500'
+    }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}
+        // component={Paper}
+        //   elevation={24}
+        //   square={false}
+        //   sx={{
+        //     borderRadius: "20px",
+        //     boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
+        //   }}
+          >
+       
+      <Typography>Please enter your username used to register.
+      We will send you a link to reset your password to that address
+      </Typography>
+      {/* <Typography>
+      </Typography> */}
+
+      <Box
+       sx={{ 
+        ml:-3,
+        mr:-3,
+        mb:-4,
+        mt:2,
+        bgcolor: '#f5f5f5',
+       display: 'flex', 
+       flexDirection: 'column',
+        alignItems: 'center' }}>
+
+      <Box component="form" 
+      onSubmit={submitForgotPassword}
+        sx={{         
+          display: 'inline-flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+        >
+       <TextField
+        margin="normal"
+        required
+        id="ForgotPassUsername"
+        label="Username"
+        name="ForgotPassUsername"
+        type="text"
+        autoFocus
+        autoComplete="username"
+        value={ForgotPassUsername}
+        onChange={onChange}
+        sx={{width: '250px', 
+        boxShadow: "0 3px 6px rgba(0, 0, 0, 0.16)",
+        borderRadius: "8px",
+        // mb:-2
+      }}
+      />        
+        <Button
+          type="submit"
+          // fullWidth
+          variant="contained"
+          sx={{
+            mb: 2,
+            width: '200px',
+            backgroundColor: "#597FB5 !important",
+            color: "#fff !important",
+            '&:hover': {
+              backgroundColor: "#405D80 !important",
+            },
+          }}> Retrieve Password
+        </Button>
+      </Box>
+      </Box>
+    </Dialog>
+    </div>
+
+
+    <PrimeReactProvider>
+    <div className="card flex justify-content-center">  
+    <Toast ref={toast} />
+      </div>    
+    </PrimeReactProvider>  
+      </>
   );
 }

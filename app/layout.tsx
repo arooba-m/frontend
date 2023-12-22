@@ -14,7 +14,6 @@ export const metadata: Metadata = {
   description: 'Marketing Hub',
 }
 
-
 export default function RootLayout({
   children,
 }: {
@@ -26,7 +25,6 @@ export default function RootLayout({
       <Script async defer crossOrigin="anonymous" 
         src="https://connect.facebook.net/en_US/sdk.js"/>  
       </Head>
-
       {/* <FacebookProvider  appId={process.env.FACEBOOK_ID as string}> */}
       <body className={inter.className}>
         {children}

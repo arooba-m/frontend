@@ -1,6 +1,6 @@
 // check line 164
 'use client'
-import React, { useState,useEffect, ChangeEvent, FormEvent } from 'react';
+import React, { useState,useEffect, useRef, ChangeEvent, FormEvent } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
   Avatar, Button, CssBaseline, TextField, Link,
@@ -12,7 +12,10 @@ import Image from 'next/image';
 import { RegisterService } from '@/app/_services/authService';
 import useStore from '@/app/_store/authStore';
 import { UserPayload } from '@/app/_models/user.model';
-
+// import  {showSuccessToast, showErrorToast, ToastComponent} from '@/app/_components/toaster';
+import { Toast} from 'primereact/toast';
+import 'primereact/resources/themes/lara-light-cyan/theme.css';
+import { PrimeReactProvider } from 'primereact/api';
 // If 'useUserService' is a custom hook, make sure to import its type definition or create one
 // Example: import { useUserService } from '@/Services/useUserService';
 // interface UseUserService {
@@ -26,12 +29,13 @@ const  Signup=()=> {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const toast = useRef<Toast>(null);
 
   // const userService = useUserService();
   // useEffect(() => {
-  //   if (!store.authUser) {
-  //     fetchUser();
-  //   }
+  //   // if (!store.authUser) {
+  //   //   fetchUser();
+  //   // }
   // }, []);
 
   // async function fetchUser() {
@@ -45,7 +49,10 @@ const  Signup=()=> {
     try {
       const response = await RegisterService(tempUser);
       if(response.statusCode == "200"){
-      //if status code 200, toaster. 
+        showSuccessToast("Regsitered. \nPlease verify your account using the verification Link sent to your email address.");        
+      }
+      else{
+        showErrorToast("Registration failed. Please check your credentials.");
       }
 
       setFirstname("");
@@ -54,12 +61,31 @@ const  Signup=()=> {
       setEmail("");
       setPassword("");
 
-      // router.push('/');
+      router.push('/');
     } catch (error) {
       console.error(error);
+      showErrorToast("Please enter correct registered username.");
     }
   }
+   const showSuccessToast = (message: string) => {
+  
+    toast.current?.show({
+      severity: 'success',
+      summary: 'Success',
+      detail: message,
+      life: 3000,
+    });
+  };
 
+   const showErrorToast = (message: string) => {
+    toast.current?.show({
+      severity: 'error',
+      summary: 'Error Message',
+      detail: message,
+      life: 3000,
+    });
+  };
+   
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -108,7 +134,27 @@ const  Signup=()=> {
     },
   });
 
+  //   const showSuccessToast = () => {
+  //   toast.current?.show({
+  //     severity: 'success',
+  //     summary: 'Success',
+  //     detail: 'Verification Link sent to your email: {email}',
+  //     life: 3000,
+  //   });
+  // };
+
+  // const showErrorToast = ()=>{
+  // // message: string) => {
+  //   toast.current?.show({
+  //     severity: 'error',
+  //     summary: 'Error Message',
+  //     detail: "not registered",
+  //     life: 3000,
+  //   });
+  // };
+
   return (
+    <>
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ m: 10 }}>
         <Grid container component={Paper} elevation={24} square={false} sx={{ borderRadius: '20px', boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)' }}>
@@ -120,13 +166,13 @@ const  Signup=()=> {
               display: { xs: "none", md: "block" }, // hide on extra-small screens, show on medium screens
             }}
           >
-            <Image
+             <Image
               src="/Images/signupImage.svg"
-              width={640}
-              height={442.66}
-              priority={true}
-              alt="loginpageimage"
+              width={456 }
+              height={304 }
+              alt="signuppageimage"
             />
+          
             {/* <img src="/Images/signupImage.svg" alt="" /> */}
           </Grid>
           {/* <Grid item xs={false} md={6} sx={{ m: 'auto' }}>
@@ -196,6 +242,7 @@ const  Signup=()=> {
                   // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters
                   value={password} onChange={onChange}
                 />
+              
                 <Button
                   type="submit"
                   fullWidth
@@ -208,7 +255,9 @@ const  Signup=()=> {
                     '&:hover': {
                       backgroundColor: "#405D80 !important", // Darker color on hover
                     },
-                  }}> Sign Up
+                  }}
+                  // onClick={showSuccessToast} 
+                  > Sign Up
                 </Button>
                 <Divider variant="middle"
                   sx={{ mb: 2 }} />
@@ -244,6 +293,14 @@ const  Signup=()=> {
         </Grid>
       </Box>
     </ThemeProvider>
+
+    {/* <ToastComponent/> */}
+    <PrimeReactProvider>
+    <div className="card flex justify-content-center">  
+    <Toast ref={toast} />
+      </div>    
+    </PrimeReactProvider>
+    </>
   );
 }
 

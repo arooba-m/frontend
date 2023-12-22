@@ -38,24 +38,27 @@ export async function LoginService(username: string, password: string): Promise<
     return handleResponse<ResponseVM<User>>(response).then((data) => data.responseData);
 }
 
-export async function VerifyService(token: string): Promise<User>{
+export async function VerifyService(token: string | any):  Promise<ResponseVM<User>>{
     const fetch = useFetch();
-    const verifyToken = await fetch.post(`${SERVER_ENDPOINT}/api/accounts/verify`, token);
+    const response = await fetch.post(`${SERVER_ENDPOINT}/api/accounts/verify`, token);
     
-    return handleResponse<ResponseVM<User>>(verifyToken).then((data) => data.responseData);
+    return handleResponse<ResponseVM<User>>(response).then((data) => data);
+    // return handleResponse<ResponseVM<User>>(verifyToken).then((data) => data.responseData);
 }
 
-export async function ResetPasswordService(token :string,password: string, confirmPassword :string): Promise<User>{
+export async function ResetPasswordService(token :string,password: string, confirmPassword :string): Promise<ResponseVM<User>>{
     const fetch = useFetch();
     const response = await fetch.post(`${SERVER_ENDPOINT}/api/accounts/resetPassword`, {token,confirmPassword,password});
 
-    return handleResponse<ResponseVM<User>>(response).then((data) => data.responseData);
+    // return handleResponse<ResponseVM<User>>(response).then((data) => data.responseData);
+    return handleResponse<ResponseVM<User>>(response).then((data) => data);
 }
-export async function ForgetPasswordService(username :string): Promise<User>{
+export async function ForgetPasswordService(username :string): Promise<ResponseVM<User>>{
     const fetch = useFetch();
     const response = await fetch.post(`${SERVER_ENDPOINT}/api/accounts/forgetPassword`, username);
 
-    return handleResponse<ResponseVM<User>>(response).then((data) => data.responseData);
+    return handleResponse<ResponseVM<User>>(response).then((data) => data);
+    // return handleResponse<ResponseVM<User>>(response).then((data) => data.responseData);
 }
 
 // export async function getUsersService(password: string): Promise<User>{
