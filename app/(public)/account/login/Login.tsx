@@ -10,7 +10,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { LoginService } from '@/app/_services/authService';
 // import { Toast } from 'primereact/toast';
-import Cookies from "universal-cookie";
+// import Cookies from "universal-cookie";
 import useStore from '@/app/_store/authStore';
 import { jwtVerification } from '@/app/_helpers/jwt-verification';
 
@@ -21,7 +21,7 @@ export default function LoginComponent() {
   const toast = useRef(null);
   const store = useStore();
   const router = useRouter();
-  const cookies = new Cookies();
+  // const cookies = new Cookies();
 
   // useEffect(() => {
   //   if (!store.authUser) {
@@ -47,8 +47,8 @@ export default function LoginComponent() {
         } catch (error: any) {
           console.log("errorrr")
         }
-        cookies.set("token", response.token);
-        cookies.set("role", response.role);
+        // cookies.set("token", response.token);
+        // cookies.set("role", response.role);
         jwtVerification(response.token);
         // cookies.set('authorization', response.token, { httpOnly: true });
       }

@@ -144,6 +144,8 @@
 // };
 
 // export default Details;
+
+'use client';
 import { Box, Container, styled, Typography, Theme } from "@mui/material";
 import React from "react";
 // import houseCard from "../media/houseCard.png";

@@ -65,6 +65,7 @@
 //     </CustomBox>
 //   );
 // };
+'use client'
 
 // export default GetStarted;
 import { Button, styled, Typography } from "@mui/material";

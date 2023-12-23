@@ -72,6 +72,7 @@
 
 // export default Companies;
 
+'use client'
 import {
   Box,
   Container,

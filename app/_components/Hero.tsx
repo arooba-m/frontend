@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 // import { Box, styled, Typography, Container, Theme } from "@mui/material";
 // import React from "react";
@@ -124,7 +124,7 @@ const Hero = () => {
             <Typography
               variant="body2"
               sx={{
-                fontSize: "18px",
+                fontSize: "12px",
                 color: "#687690",
                 fontWeight: "500",
                 mt: 10,
@@ -145,7 +145,9 @@ const Hero = () => {
             <CustomButton
               backgroundColor="#0F1B4C"
               color="#fff"
+              
               buttonText="More About Us"
+              
               heroBtn={true}
             />
           </Box>

@@ -1,3 +1,5 @@
+
+'use client'
 import React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -48,7 +50,7 @@ const tiers: Tier[] = [
     price: '15',
     description: [
       '20 users included',
-      '10 GB of storage',
+      '20 Ads per user',
       'Help center access',
       'Priority email support',
     ],
@@ -61,9 +63,9 @@ const tiers: Tier[] = [
     price: '30',
     description: [
       '50 users included',
-      '30 GB of storage',
+      '50 ad per user',
       'Help center access',
-      'Phone & email support',
+      'email support',
     ],
     buttonText: 'Contact us',
     buttonVariant: 'outlined',
