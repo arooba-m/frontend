@@ -94,9 +94,15 @@ const cardsData = [
 const Cards: React.FC = () => {
   return (
     <Container>
-      <Typography variant="h5" sx={{ textAlign: "center", marginBottom: 2 }}>
-        <h1>Featured Platforms</h1> 
-        <p>Platforms where you can unleash your ad campaigns</p><br />
+      <Typography
+       variant="h3" component="h1"
+       color="text.primary" 
+       sx={{ textAlign: "center", marginBottom: 2 }}
+      >
+        Featured Platforms
+        </Typography>
+        <Typography component="p" variant="h5" color="text.secondary" sx={{ textAlign: "center", marginBottom: 2 }}>  
+        Platforms where you can unleash your ad campaigns<br />
       </Typography>
 
       <CardContainer>

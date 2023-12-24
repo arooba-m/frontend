@@ -1,9 +1,8 @@
-import Image from 'next/image'
-import styles from './page.module.css'
-import Head from 'next/head'
+// import Image from 'next/image'
+// import styles from './page.module.css'
 import { Inter } from 'next/font/google'
 // import Footer from './_components/footer'
-import Signup from './(public)/account/register/page'
+// import Signup from './(public)/account/register/page'
 // import HeaderComponent from './_components/header'
 // import Header from './_components/header'
 import Hero from './_components/Hero'
@@ -23,26 +22,21 @@ export default function Home() {
   return (
     <div className="main mx-auto">
       {/* <HeaderComponent/> */}
-      
-    <Head>
-      <title>OneClicks</title>
-    </Head>
     {/* <Header/> */}
     
-    <Hero></Hero>
+    <Hero/>
     <br />
-    <Companies></Companies>
+    <Companies/>
     <br />
-    <Details></Details>
+    <Details/>
     <br />
-    <Cards></Cards>
+    <Cards/>
     <br />
-    <Pricing></Pricing>
+    <Pricing/>
     <br />
-    {/* <Properties></Properties> */}
-    <GetStarted></GetStarted>
+    <GetStarted/>
     <br></br>
-    <Footer1></Footer1>
+    <Footer1/>
     <br />
   </div>    
   )

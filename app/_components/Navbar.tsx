@@ -19,10 +19,18 @@ import {
   ListItemIcon,
   ListItemText,
   styled,
+  IconButton,
+  Menu, Tooltip,
+  MenuItem, Divider
 } from "@mui/material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import { useState } from "react";
+import { usePathname } from 'next/navigation';
 
 export const Navbar: React.FC = () => {
+  const [loggingOut, setLoggingOut] = useState(false);
+
   const [mobileMenu, setMobileMenu] = useState({
     left: false,
   });
@@ -67,6 +75,30 @@ export const Navbar: React.FC = () => {
       </List>
     </Box>
   );
+  const logout = async () => {
+    setLoggingOut(true);
+    // await userService.logout();
+  };
+
+  const pathname = usePathname();
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
 
   const NavLink = styled(Typography)(({ theme }) => ({
     fontSize: "14px",
@@ -101,6 +133,7 @@ export const Navbar: React.FC = () => {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    // position:"sticky",
     padding: theme.spacing(5),
     [theme.breakpoints.down("md")]: {
       padding: theme.spacing(2),
@@ -133,7 +166,7 @@ export const Navbar: React.FC = () => {
           >
             {list("left")}
           </Drawer>
-          <NavbarLogo src='/media/logo.png' alt="logo" />
+          <NavbarLogo src='/Images/navbarlogo.svg' alt="logo" />
         </Box>
 
         <NavbarLinksBox>
@@ -153,21 +186,59 @@ export const Navbar: React.FC = () => {
           gap: "1rem",
         }}
       >
-        <NavLink variant="body2">
         <Link href="/accounts/login">
-          <a>Login</a>
-        </Link>
-      </NavLink>
+        <NavLink variant="body2">
+          Login
+      </NavLink></Link>
 
         <Link href="/accounts/signup">
-    <a>
       <CustomButton
         backgroundColor="#0F1B4C"
         color="#fff"
         buttonText="Register"
       />
-    </a>
   </Link>
+
+  <Box sx={{ flexGrow: 0 }}>
+                    <Tooltip title="Open settings">
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                            <AccountCircleIcon
+                                sx={{ fontSize: 40, color: "#0F1B4C" }} />
+                        </IconButton>
+                    </Tooltip>
+                    <Menu
+                        sx={{ mt: '45px'}}
+                        id="menu-appbar"
+                        anchorEl={anchorElUser}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
+                    >
+                        <MenuItem onClick={handleCloseUserMenu} >
+                            <Link href={'/profile'} style={{textDecoration:'none'}}><Typography margin="-4px" width="140px" textAlign="center" color="#597FB5">Profile</Typography></Link>
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem onClick={handleCloseUserMenu}>
+                            <Link href={'/account'} style={{textDecoration:'none'}}><Typography margin="-4px" width="140px" textAlign="center" color="#597FB5">Account</Typography></Link>
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem onClick={handleCloseUserMenu}>
+                            <Link href={'/dashboard'} style={{textDecoration:'none'}}><Typography margin="-4px" width="140px" textAlign="center" color="#597FB5">Dashboard</Typography></Link>
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem onClick={handleCloseUserMenu}>
+                            <Link href={'/'} style={{textDecoration:'none'}}><Typography margin="-4px" width="140px" textAlign="center" color="#597FB5">Logout</Typography></Link>
+                        </MenuItem>
+                    </Menu>
+                </Box>
       </Box>
     </NavbarContainer>
   );
