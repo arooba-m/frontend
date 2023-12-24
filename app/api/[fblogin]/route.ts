@@ -22,7 +22,7 @@ const getAppAccessToken = async () =>{
     fetch(`https://graph.facebook.com/oauth/access_token?client_id=${app_id}&client_secret=${app_secret}&grant_type=client_credentials`)
 
     const data : {access_token: string} = await response.json();
-    if(!response.ok){
+    if(response.ok){
         console.log("access token in handler: ", data.access_token);
     }
     else{

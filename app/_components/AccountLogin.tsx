@@ -1,11 +1,34 @@
 'use client'
 
-// import Link from 'next/link';
 import React, { useEffect } from 'react';
 const app_id = process.env.FACEBOOK_ID;
 
-
 const AccountLogin: React.FC = () => {
+    useEffect(() => {
+        const loadFacebookSDK = () => {
+            const fbScript = document.createElement('script');
+            fbScript.id = 'facebook-jssdk';
+            fbScript.src = 'https://connect.facebook.net/en_US/sdk.js';
+            document.getElementsByTagName('head')[0].appendChild(fbScript);
+    
+            fbScript.onload = () => {
+                window.fbAsyncInit = () => {
+                    window.FB?.init({
+                        appId: "733989884793288",
+                        cookie: true,
+                        xfbml: true,
+                        version: 'v18.0',
+                    });
+    
+                    // window.FB.getLoginStatus((response) => {
+                    //     console.log("response: ",response);
+                    //     statusChangeCallback(response);
+                    // });
+                };
+            };
+        };
+        loadFacebookSDK(); 
+    }, [ ]);
 
 const login = () => {
     
@@ -19,11 +42,8 @@ const login = () => {
             console.log("response2: ",response);
         }
         },
-        {
-            scope: 
-            'email, read_insights, pages_show_list, ads_management, ads_read, business_management, pages_read_engagement,pages_manage_posts'}
-            // 'email,public_profile, ads_management, pages_manage_ads'}
-
+        {scope: 'email, read_insights, pages_show_list, ads_management, ads_read, business_management, pages_read_engagement,pages_manage_posts'}      
+        // :'email,public_profile, ads_management, pages_manage_ads'}
     )
   }
 
@@ -39,31 +59,7 @@ const login = () => {
     //     }      
     // };
 
-    useEffect(() => {
-        const loadFacebookSDK = () => {
-            const fbScript = document.createElement('script');
-            fbScript.id = 'facebook-jssdk';
-            fbScript.src = 'https://connect.facebook.net/en_US/sdk.js';
-            document.getElementsByTagName('head')[0].appendChild(fbScript);
-    
-            fbScript.onload = () => {
-                window.fbAsyncInit = () => {
-                    window.FB?.init({
-                        appId: app_id,
-                        cookie: true,
-                        xfbml: true,
-                        version: 'v18.0',
-                    });
-    
-                    // window.FB.getLoginStatus((response) => {
-                    //     console.log("response: ",response);
-                    //     statusChangeCallback(response);
-                    // });
-                };
-            };
-        };
-        loadFacebookSDK();    
-    }, []);
+   
 
     // const checkLoginState = () => {
     //     console.log("in check login status")
