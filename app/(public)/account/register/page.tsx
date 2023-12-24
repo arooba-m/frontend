@@ -170,6 +170,7 @@ const  Signup=()=> {
               src="/Images/signupImage.svg"
               width={456 }
               height={304 }
+              priority={true}
               alt="signuppageimage"
             />
           

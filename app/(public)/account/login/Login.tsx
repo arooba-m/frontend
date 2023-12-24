@@ -201,6 +201,7 @@ export default function LoginComponent() {
               src="/Images/signupImage.svg"
               width={456 }
               height={304 }
+              priority={true}
               alt="loginpageimage"
             />
             {/* <Image
