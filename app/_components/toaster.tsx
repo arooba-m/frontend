@@ -1,27 +1,23 @@
 // import React from 'react'
 import React, { useState,useEffect, useRef, ChangeEvent, FormEvent } from 'react';
-
 import { Toast} from 'primereact/toast';
-import { Button } from 'primereact/button';
-import { PrimeReactProvider } from 'primereact/api';
-// import 'primeflex/primeflex.css';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
-import { Messages } from 'primereact/messages';
 
-export function ToastComponent() {
+export function ToastComponent(props: any) {
     const toast = useRef<Toast>(null);
 
+    console.log("check: ", props.func, " msg: ", props.message)
+ 
     const SuccessToast = (message: string) => {
       toast.current?.show({
          severity: 'success',
          summary: 'Success',
-         detail: message,
+         detail: props,
          life: 3000,
        });
      };
    
    const ErrorToast = (message: string)=>{
-     
        toast.current?.show({
          severity: 'error',
          summary: 'Error Message',
@@ -29,6 +25,13 @@ export function ToastComponent() {
          life: 3000,
        });
      };
+
+     if(props.func == "SuccessToast"){
+      SuccessToast(props.message);
+    }
+    else if(props.func == "ErrorToast"){
+      ErrorToast(props.message);
+    }
    
   return (
     // <PrimeReactProvider value={{ unstyled: true }}>
@@ -37,12 +40,5 @@ export function ToastComponent() {
       </div>    
 //  </PrimeReactProvider>
       )
-}
-export const showSuccessToast = (message: string) => {
-  SuccessToast(message);
-}
-
-export const showErrorToast = (message: string) => {
-  Err(message);
 }
 

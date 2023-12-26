@@ -5,7 +5,7 @@ import {
   Avatar, Button, CssBaseline, TextField, Link,
   Paper, Box, Grid, Typography, createTheme, ThemeProvider, Divider
 } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 // import { useUserService } from '@/app/_services/useUserService';
 import { ResetPasswordService } from '@/app/_services/authService';
 import Cookies from "universal-cookie";
@@ -26,6 +26,7 @@ export default function ResetPassword() {
   const [PasswordError, setPasswordError] = useState<string>("");
   const cookies = new Cookies();
   const toast = useRef<Toast>(null);
+  const searchParams = useSearchParams();
   // const userService = useUserService();
 
   const submitReset = async (e: FormEvent) => {
@@ -36,21 +37,25 @@ export default function ResetPassword() {
       return;
     }
     setPasswordError("");
-
+    const token = searchParams.get("token");
     try {
-      const token = cookies.get("token");
-      const response = await ResetPasswordService(token.toString(),confirmPassword,password);
-      // Your login logic here
+      // const token = cookies.get("token");
+      const response = await ResetPasswordService(token,password,confirmPassword);
+
       if(response.statusCode=="200"){
-        // console.log("Password successful changed");
         showSuccessToast("Password successful changed!");
-        // cookies.set("role", response.responseData.role);        
+
+        setTimeout(() => {
+          router.push('/account/login');
+        }, 3000);   
+      }   
+      else if(response.statusCode=="401"){
+        showErrorToast("Token is Expired!");
       }   
 
       setPassword("");
       setConfirmPassword("");
 
-      router.push('/account/login');
     } catch (error) {
       showErrorToast("Please enter correct passwords.");
       // console.error(error);

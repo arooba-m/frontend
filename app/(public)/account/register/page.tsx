@@ -61,7 +61,10 @@ const  Signup=()=> {
       setEmail("");
       setPassword("");
 
-      router.push('/');
+      setTimeout(() => {
+        router.push('/');
+      }, 3000);   
+
     } catch (error) {
       console.error(error);
       showErrorToast("Please enter correct registered username.");
