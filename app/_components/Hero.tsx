@@ -96,13 +96,16 @@ const Hero = () => {
   const CustomBox = styled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: "center",
-    gap: theme.spacing(5),
-    marginTop: theme.spacing(3),
+    // gap: theme.spacing(5),
+    // marginTop: theme.spacing(3),
     [theme.breakpoints.down("md")]: {
       flexDirection: "column",
       alignItems: "center",
       textAlign: "center",
     },
+    alignItems: "center",
+    gap: "2.5rem",
+    pl: "20px",
   }));
 
   const Title = styled(Typography)(({ theme }) => ({
@@ -116,10 +119,10 @@ const Hero = () => {
   }));
 
   return (
-    <Box sx={{ backgroundColor: "#E6F0FF", minHeight: "80vh" }}>
-      <Container>
+    <Box sx={{ backgroundColor: "#E6F0FF", minHeight: "90vh" }}>
+      <Container >
+        {/* <Navbar/> */}
         {/* <HeaderComponent/> */}
-        <Navbar />
         <CustomBox>
           <Box sx={{ flex: "1" }}>
             <Typography
@@ -162,7 +165,7 @@ const Hero = () => {
           </Box>
         </CustomBox>
       </Container>
-    </Box>
+     </Box>
   );
 };
 
