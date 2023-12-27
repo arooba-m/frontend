@@ -88,9 +88,10 @@ function HeaderComponent() {
                     height: 25
                 }}>
                 <Image
-                src='/Images/logo.png' 
+                src='/Images/logo.svg' 
                 width={134}
                 height={25}
+                priority={true}
                 alt="OneClicks"
                 />
                 </Box>
@@ -127,14 +128,15 @@ function HeaderComponent() {
                     >
 
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link href={'/'}><Typography
+                            <Link href={'/'} style={{textDecoration:'none'}}><Typography
                                     className={pathname === '/' ? 'active' : ''}
                                 textAlign="center" color="#597FB5" margin="-4px" width="140px"
                             >Home</Typography></Link>
                         </MenuItem>
                         <Divider />
                         <MenuItem onClick={handleCloseNavMenu}>
-                            <Link href={'/account/login'}><Typography 
+                            <Link href={'/account/login'} style={{textDecoration:'none'}}><Typography 
+                           
                                     className={pathname === '/account/login' ? 'active' : ''}
                                     textAlign="center" color="#597FB5"
                                 margin="-4px" width="140px" >Login</Typography></Link>
@@ -151,9 +153,10 @@ function HeaderComponent() {
                 }}>
                 
                 <Image
-                src='/Images/logo.png' 
+                src='/Images/logo.svg' 
                 width={134}
                 height={25}
+                priority={true}
                 alt="OneClicks"
                 />
                 </Box>
@@ -165,7 +168,7 @@ function HeaderComponent() {
                     display: { xs: 'none', md: 'flex' }
                 }}>
 
-                    <Link href={'/'}> <Button
+                    <Link href={'/'} style={{textDecoration:'none'}}> <Button
                         key="Home"
                         className={pathname === '/' ? 'active' : ''}
                         onClick={handleCloseNavMenu}
@@ -174,7 +177,7 @@ function HeaderComponent() {
                         sx={{ my: 2, display: 'block', color: "#597FB5", borderColor: "#597FB5" }}
                     // sx={{ my: 2, display: 'block', color:"#597FB5"}}
                     >Home</Button></Link>
-                    <Link href={'/account/login'}>
+                    <Link href={'/account/login'} style={{textDecoration:'none'}}>
                         <Button
                             className={pathname === '/account/login' ? 'active' : ''}
                             onClick={handleCloseNavMenu}
@@ -226,19 +229,19 @@ function HeaderComponent() {
                         onClose={handleCloseUserMenu}
                     >
                         <MenuItem onClick={handleCloseUserMenu} >
-                            <Link href={'/profile'}><Typography margin="-4px" width="140px" textAlign="center" color="#597FB5">Profile</Typography></Link>
+                            <Link href={'/profile'} style={{textDecoration:'none'}}><Typography margin="-4px" width="140px" textAlign="center" color="#597FB5">Profile</Typography></Link>
                         </MenuItem>
                         <Divider />
                         <MenuItem onClick={handleCloseUserMenu}>
-                            <Link href={'/account'}><Typography margin="-4px" width="140px" textAlign="center" color="#597FB5">Account</Typography></Link>
+                            <Link href={'/account'} style={{textDecoration:'none'}}><Typography margin="-4px" width="140px" textAlign="center" color="#597FB5">Account</Typography></Link>
                         </MenuItem>
                         <Divider />
                         <MenuItem onClick={handleCloseUserMenu}>
-                            <Link href={'/dashboard'}><Typography margin="-4px" width="140px" textAlign="center" color="#597FB5">Dashboard</Typography></Link>
+                            <Link href={'/dashboard'} style={{textDecoration:'none'}}><Typography margin="-4px" width="140px" textAlign="center" color="#597FB5">Dashboard</Typography></Link>
                         </MenuItem>
                         <Divider />
                         <MenuItem onClick={handleCloseUserMenu}>
-                            <Link href={'/'}><Typography margin="-4px" width="140px" textAlign="center" color="#597FB5">Logout</Typography></Link>
+                            <Link href={'/'} style={{textDecoration:'none'}}><Typography margin="-4px" width="140px" textAlign="center" color="#597FB5">Logout</Typography></Link>
                         </MenuItem>
                     </Menu>
                 </Box>
