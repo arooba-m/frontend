@@ -8,10 +8,10 @@ export async function GET(req: Request, res:Response) {
     const token = searchParams.get('token');
 
     if (token !== null) {
-        console.log("inside handler")
+        // console.log("inside handler")
         const appAccessToken = await getAppAccessToken();
         const scopes = await debugToken(appAccessToken, token);
-        console.log("scopes: ", scopes); 
+        console.log("Scopes and Permissions: ", scopes); 
 
         return Response.json({ scopes})
     }
@@ -23,7 +23,7 @@ const getAppAccessToken = async () =>{
 
     const data : {access_token: string} = await response.json();
     if(response.ok){
-        console.log("access token in handler: ", data.access_token);
+        console.log("Access token in Debug handler: ", data.access_token);
     }
     else{
         console.log("App access token failed")

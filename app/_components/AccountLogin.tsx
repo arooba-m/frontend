@@ -38,8 +38,8 @@ const login = () => {
             console.log(response.authResponse.accessToken);
 
             fetch(`/api/fblogin?token=${response.authResponse.accessToken}`)
-            .then(response2 => console.log("got a response", response2));
-            console.log("response2: ",response);
+            .then(response2 => console.log("Debug response: ", response2));
+            console.log("Response by Facebook Login: ",response);
         }
         },
         {scope: 'email, read_insights, pages_show_list, ads_management, ads_read, business_management, pages_read_engagement,pages_manage_posts'}      
